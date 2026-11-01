@@ -6,6 +6,14 @@ Changelog
 
 Bugfixes
 ~~~~~~~~
+- Fix ``get_next``/``get_prev`` raising ``AssertionError`` for pytz timezones whose
+  tzdb encoding uses a negative DST offset (for example ``Europe/Dublin``). At an
+  ambiguous local time the resolution assumed the ``is_dst=True`` interpretation is
+  always the later UTC instant; such zones invert that ordering, so the internal
+  assertion tripped and evaluation crashed instead of returning a fire time. Both
+  interpretations are now ordered by their absolute instants and the first one
+  satisfying the successor requirement in the requested direction is returned.
+  [#267, @abhijeet117]
 - Fix day-of-week ``7`` (Sunday) being rejected in the 6-field (seconds) and 7-field
   (year) forms. ``7`` is now accepted as an alias for ``0`` in every form, as it already
   was in the classic 5-field form. [#263, @nikolauspschuetz]
