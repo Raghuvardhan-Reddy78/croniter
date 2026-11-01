@@ -6,6 +6,9 @@ Changelog
 
 Bugfixes
 ~~~~~~~~
+- Fix day-of-week ``7`` (Sunday) being rejected in the 6-field (seconds) and 7-field
+  (year) forms. ``7`` is now accepted as an alias for ``0`` in every form, as it already
+  was in the classic 5-field form. [#263, @nikolauspschuetz]
 - Reject non-ASCII digits in cron expressions. The parsing regexes used Unicode ``\d``
   and ``\w``, and ``int()`` also accepts any Unicode decimal digit, so ``٥ * * * *``
   (Arabic-Indic five) or ``０ ０ * * *`` (fullwidth zeros) passed ``is_valid`` and ran as
